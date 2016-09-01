@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   renderIntoDocument,
-  scryRenderedDOMComponentsWithTag,
+  scryRenderedDOMComponentsWithTag as s,
   Simulate
 } from 'react-addons-test-utils';
 import {List} from 'immutable';
@@ -16,7 +16,7 @@ describe('Voting', () => {
     const component = renderIntoDocument(
       <Voting pair={['Trainspotting', '28 Days Later']} />
     );
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    const buttons = s(component, 'button');
 
     expect(buttons.length).to.equal(2);
     expect(buttons[0].textContent).to.equal('Trainspotting');
@@ -31,7 +31,7 @@ describe('Voting', () => {
       <Voting pair={['Trainspotting', '28 Days Later']}
               vote={vote}/>
     );
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    const buttons = s(component, 'button');
     Simulate.click(buttons[0]);
 
     expect(votedWith).to.equal('Trainspotting');
@@ -42,7 +42,7 @@ describe('Voting', () => {
       <Voting pair={['Trainspotting', '28 Days Later']}
               hasVoted="Trainspotting" />
     );
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    const buttons = s(component, 'button');
 
     expect(buttons.length).to.equal(2);
     expect(buttons[0].hasAttribute('disabled')).to.equal(true);
@@ -54,7 +54,7 @@ describe('Voting', () => {
       <Voting pair={['Trainspotting', '28 Days Later']}
               hasVoted="Trainspotting" />
     );
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    const buttons = s(component, 'button');
 
     expect(buttons[0].textContent).to.contain('Voted');
   });
@@ -63,7 +63,7 @@ describe('Voting', () => {
     const component = renderIntoDocument(
       <Voting winner='Trainspotting' />
     );
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    const buttons = s(component, 'button');
     expect(buttons.length).to.equal(0);
 
     const winner = ReactDOM.findDOMNode(component.refs.winner);
@@ -79,7 +79,7 @@ describe('Voting', () => {
       container
     );
 
-    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    let firstButton = s(component, 'button')[0];
     expect(firstButton.textContent).to.equal('Trainspotting');
 
     pair[0] = 'Sunshine';
@@ -88,7 +88,7 @@ describe('Voting', () => {
       container
     );
 
-    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    firstButton = s(component, 'button')[0];
     expect(firstButton.textContent).to.equal('Trainspotting');
   });
 
@@ -100,7 +100,7 @@ describe('Voting', () => {
       container
     );
 
-    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    let firstButton = s(component, 'button')[0];
     expect(firstButton.textContent).to.equal('Trainspotting');
 
     const newPair = pair.set(0, 'Sunshine');
@@ -108,7 +108,7 @@ describe('Voting', () => {
       <Voting pair={newPair} />,
       container
     );
-    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    firstButton = s(component, 'button')[0];
     expect(firstButton.textContent).to.equal('Sunshine');
   });
 
